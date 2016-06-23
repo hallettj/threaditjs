@@ -39,7 +39,7 @@ export class Thread extends React.Component<void,ThreadProps,void> {
 
   render(): React.Element {
     const { commentId, comments, dispatch } = this.props
-    if (comments.loading) {
+    if (comments.isLoading) {
       return <Loading/>
     }
     else if (comments.error) {
