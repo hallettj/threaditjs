@@ -11,3 +11,7 @@ export type Comment = {
 export function getComment(id: string, comments: Comment[]): Comment {
   return comments.find(c => c.id === id)
 }
+
+export function getChildren(comment: Comment, comments: Comment[]): Comment[] {
+  return comments.filter(c => comment.children.some(id => id === c.id))
+}

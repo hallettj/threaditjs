@@ -48,14 +48,15 @@ export class Thread extends React.Component<void,ThreadProps,void> {
     else {
       const data = comments.data || []
       const comment = C.getComment(commentId, data)
-      return <Comment comment={comment} {...this.props} />
+      return <Comment comment={comment} comments={data} {...this.props} />
     }
   }
 
 }
 
 type CommentProps = {
-  comment: CommentRecord,
+  comment:  CommentRecord,
+  comments: CommentRecord[],
   dispatch: Function,
   replying: boolean,
 }
@@ -63,7 +64,10 @@ type CommentProps = {
 class Comment extends React.Component<void,CommentProps,void> {
 
   render(): React.Element {
-    const { comment, dispatch, replying } = this.props
+    const { comment, comments, dispatch, replying } = this.props
+    const children = C.getChildren(comment, comments).map(c => (
+      <Comment key={c.id} comment={c} {...this.props} />
+    ))
     return (
       <div className="comment">
         <p dangerouslySetInnerHTML={{__html: comment.text}}></p>
@@ -76,6 +80,7 @@ class Comment extends React.Component<void,CommentProps,void> {
               </form>
           }
         </div>
+        <div className="children">{children}</div>
       </div>
     )
   }
