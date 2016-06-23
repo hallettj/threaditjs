@@ -48,7 +48,7 @@ export class Thread extends React.Component<void,ThreadProps,void> {
     else {
       const data = comments.data || []
       const comment = C.getComment(commentId, data)
-      return <Comment comment={comment} comments={data} {...this.props} />
+      return <Comment {...this.props} comment={comment} comments={data} />
     }
   }
 
@@ -66,7 +66,7 @@ class Comment extends React.Component<void,CommentProps,void> {
   render(): React.Element {
     const { comment, comments, dispatch, replying } = this.props
     const children = C.getChildren(comment, comments).map(c => (
-      <Comment key={c.id} comment={c} {...this.props} />
+      <Comment {...this.props} key={c.id} comment={c} />
     ))
     return (
       <div className="comment">
