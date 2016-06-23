@@ -1,8 +1,8 @@
 /* @flow */
 
 export type Action =
-  | { type: 'toggleReply' }
+  | { type: 'toggleReply', inReplyTo: string }
 
-export function toggleReply() {
-  return { type: toggleReply }
+export function toggleReply(threadId: string) {
+  return { type: toggleReply, inReplyTo: threadId }
 }

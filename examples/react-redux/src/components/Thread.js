@@ -17,8 +17,10 @@ type ThreadProps = {
   commentId: string,
   comments:  Selection<CommentRecord[]>,
   dispatch:  Function,
-  replying:  boolean,
+  replying:  ThreadId[],
 }
+
+type ThreadId = string
 
 export class Thread extends React.Component<void,ThreadProps,void> {
 
@@ -58,7 +60,7 @@ type CommentProps = {
   comment:  CommentRecord,
   comments: CommentRecord[],
   dispatch: Function,
-  replying: boolean,
+  replying: ThreadId[],
 }
 
 class Comment extends React.Component<void,CommentProps,void> {
@@ -72,7 +74,7 @@ class Comment extends React.Component<void,CommentProps,void> {
       <div className="comment">
         <p dangerouslySetInnerHTML={{__html: comment.text}}></p>
         <div className="reply">
-          {replying
+          {this.replyingTo(comment.id)
             ? <a onClick={this.toggleReply.bind(this)} href="#">Reply</a>
             : <form onSubmit={this.handleSubmit.bind(this)}>
                 <textarea ref="text" />
@@ -87,7 +89,8 @@ class Comment extends React.Component<void,CommentProps,void> {
 
   toggleReply(event: Event) {
     event.preventDefault()
-    this.props.dispatch(App.toggleReply())
+    const { comment, dispatch } = this.props
+    dispatch(App.toggleReply(comment.id))
   }
 
   handleSubmit(event: Event) {
@@ -95,6 +98,10 @@ class Comment extends React.Component<void,CommentProps,void> {
     const { comment, dispatch } = this.props
     const text = this.refs.text.value
     dispatch(Api.createComment(text, comment.id))
+  }
+
+  replyingTo(commentId: string): boolean {
+    return this.props.replying.some(id => id === commentId)
   }
 
 }
