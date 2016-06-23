@@ -74,7 +74,7 @@ class Comment extends React.Component<void,CommentProps,void> {
       <div className="comment">
         <p dangerouslySetInnerHTML={{__html: comment.text}}></p>
         <div className="reply">
-          {this.replyingTo(comment.id)
+          {!this.replyingTo(comment.id)
             ? <a onClick={this.toggleReply.bind(this)} href="#">Reply</a>
             : <form onSubmit={this.handleSubmit.bind(this)}>
                 <textarea ref="text" />
