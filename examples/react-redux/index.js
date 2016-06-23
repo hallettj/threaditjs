@@ -13,7 +13,7 @@ import sagas                            from './src/sagas'
 import Home                             from './src/components/Home'
 import Thread                           from './src/components/Thread'
 import {
-  IndexRoute, Router, Route, hashHistory
+  Router, Route, hashHistory
 } from 'react-router'
 
 const API_URL = 'http://api.threaditjs.com'
@@ -40,7 +40,7 @@ saga.run(sagas, apiClient)
 render(
   <Provider store={store}>
     <Router history={history}>
-      <IndexRoute component={Home} />
+      <Route path="/"           component={Home}   />
       <Route path="/thread/:id" component={Thread} />
     </Router>
   </Provider>,
